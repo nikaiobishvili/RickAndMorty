@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CharacterListView.swift
 //  RickAndMorty
 //
 //  Created by Nika Iobishvili on 25/10/2026.
@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CharacterListView: View {
+    @State private var viewModel = CharacterListViewModel()
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -18,6 +20,7 @@ struct CharacterListView: View {
             }
             .padding()
             .navigationTitle("Characters")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
