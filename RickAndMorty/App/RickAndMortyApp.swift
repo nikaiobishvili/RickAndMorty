@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct RickAndMortyApp: App {
+    private let repository = RemoteCharactersRepository(client: URLSessionAPIClient())
+    
     var body: some Scene {
         WindowGroup {
-            CharacterListView()
+            CharacterListView(
+                viewModel: CharacterListViewModel(
+                    repository: repository
+                )
+            )
         }
     }
 }
