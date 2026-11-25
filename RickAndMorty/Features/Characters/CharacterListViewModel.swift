@@ -9,7 +9,7 @@ final class CharacterListViewModel {
         case idle
         case loading
         case loaded([CharacterDTO])
-        case failed(String)
+        case failed(ErrorMessage)
     }
     
     var searchText = ""
@@ -17,7 +17,9 @@ final class CharacterListViewModel {
     private(set) var state: State = .idle
     private(set) var nextPageURL: URL?
     private(set) var isLoadingNextPage = false
-    private(set) var nextPageError: String?
+    private(set) var nextPageError: ErrorMessage?
+    private(set) var isRefreshing = false
+    private(set) var loadError: ErrorMessage?
     
     @ObservationIgnored
     private var loadedQuery = ""
@@ -32,21 +34,36 @@ final class CharacterListViewModel {
         self.repository = repository
     }
     
-    func loadCharacters() async {
+    /// Returning from details should keep the loaded pages and scroll position.
+    func loadIfNeeded() async {
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if case .loaded = state, query == loadedQuery,
+           filters == loadedFilters, loadError == nil { return }
+        await loadCharacters()
+    }
+
+    func loadCharacters(debounce: Bool = true) async {
         guard !Task.isCancelled else { return }
         let filters = self.filters
         let requestID = UUID()
         currentRequestID = requestID
         
+        let previousNextPageURL = nextPageURL
         nextPageURL = nil
         isLoadingNextPage = false
         nextPageError = nil
-        state = .loading
+        loadError = nil
+        isRefreshing = true
+        let previousState = state
+        if case .loaded = state { } else { state = .loading }
+        defer {
+            if currentRequestID == requestID { isRefreshing = false }
+        }
         
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         
         do {
-            if !query.isEmpty {
+            if debounce && !query.isEmpty {
                 try await Task.sleep(for: .milliseconds(300))
             }
             
@@ -73,11 +90,18 @@ final class CharacterListViewModel {
             
             if Task.isCancelled ||
                 (error as? URLError)?.code == .cancelled {
-                state = .idle
+                state = previousState
+                nextPageURL = query == loadedQuery && filters == loadedFilters ? previousNextPageURL : nil
                 return
             }
             
-            state = .failed(message(for: error))
+            if case .loaded = previousState {
+                state = previousState
+                nextPageURL = query == loadedQuery && filters == loadedFilters ? previousNextPageURL : nil
+                loadError = ErrorMessage(error)
+            } else {
+                state = .failed(ErrorMessage(error))
+            }
         }
     }
     
@@ -133,30 +157,8 @@ final class CharacterListViewModel {
                 return
             }
             
-            nextPageError = message(for: error)
+            nextPageError = ErrorMessage(error)
         }
     }
     
-    private func message(for error: Error) -> String {
-        if let urlError = error as? URLError {
-            switch urlError.code {
-            case .notConnectedToInternet:
-                return "You appear to be offline."
-            case .timedOut:
-                return "The request timed out. Please try again."
-            default:
-                return "Could not connect to the server."
-            }
-        }
-        
-        if error is DecodingError {
-            return "The server returned data we could not read."
-        }
-        
-        if case APIError.httpStatus(let code) = error {
-            return "The server returned an error (\(code))."
-        }
-        
-        return "Could not load characters. Please try again."
-    }
 }

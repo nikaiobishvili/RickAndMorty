@@ -4,7 +4,8 @@ import SwiftUI
 struct CharacterListView: View {
     @State private var viewModel: CharacterListViewModel
     @State private var retryCount = 0
-    @State private var showingFilters = false
+    @State private var activeSheet: Sheet?
+    @Environment(\.locale) private var locale
     private let detailsRepository: any CharacterDetailsRepository
 
     init(viewModel: CharacterListViewModel, detailsRepository: any CharacterDetailsRepository) {
@@ -15,6 +16,22 @@ struct CharacterListView: View {
     var body: some View {
         NavigationStack {
             content
+                .safeAreaInset(edge: .top, spacing: 0) {
+                    if viewModel.isRefreshing, case .loaded = viewModel.state {
+                        ProgressView("Updating characters…")
+                            .padding(8).frame(maxWidth: .infinity)
+                            .background(.regularMaterial)
+                    }
+                    if let message = viewModel.loadError {
+                        VStack(spacing: 8) {
+                            Text(message.localized(locale: locale)).font(.callout)
+                            Button("Try again") { retryCount += 1 }
+                        }
+                        .padding().frame(maxWidth: .infinity).background(.regularMaterial)
+                        .accessibilityElement(children: .contain)
+                    }
+                }
+                .background(AppBackgroundSurface())
                 .navigationTitle("Characters")
                 .navigationBarTitleDisplayMode(.large)
                 .searchable(
@@ -24,22 +41,35 @@ struct CharacterListView: View {
                 .task(
                     id: LoadTrigger(query: viewModel.searchText, filters: viewModel.filters, retryCount: retryCount)
                 ) {
-                    await viewModel.loadCharacters()
+                    await viewModel.loadIfNeeded()
                 }
                 .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            activeSheet = .settings
+                        } label: {
+                            Image(systemName: "gearshape")
+                        }
+                        .accessibilityLabel("Settings")
+                        .accessibilityIdentifier("app-settings")
+                    }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            showingFilters = true
+                            activeSheet = .filters
                         } label: {
                             Image(systemName: viewModel.filters == CharacterFilters()
                                   ? "line.3.horizontal.decrease.circle"
                                   : "line.3.horizontal.decrease.circle.fill")
                         }
                         .accessibilityLabel("Filter characters")
+                        .accessibilityIdentifier("character-filters")
                     }
                 }
-                .sheet(isPresented: $showingFilters) {
-                    CharacterFiltersView(filters: $viewModel.filters)
+                .sheet(item: $activeSheet) { sheet in
+                    switch sheet {
+                    case .filters: CharacterFiltersView(filters: $viewModel.filters)
+                    case .settings: SettingsView()
+                    }
                 }
                 .navigationDestination(for: Int.self) { id in
                     CharacterDetailsView(id: id, repository: detailsRepository)
@@ -59,7 +89,14 @@ struct CharacterListView: View {
 
         case .loaded(let characters):
             if characters.isEmpty {
-                ContentUnavailableView.search(text: viewModel.searchText)
+                ScrollView {
+                    ContentUnavailableView {
+                        Label("No characters found", systemImage: "magnifyingglass")
+                    } description: {
+                        Text("Try another name or reset the filters.")
+                    }
+                }
+                .refreshable { await viewModel.loadCharacters(debounce: false) }
             } else {
                 ScrollView {
                     LazyVStack(spacing: 12) {
@@ -73,6 +110,8 @@ struct CharacterListView: View {
                                 )
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("character-\(character.id)")
+                            .accessibilityHint("Open character details")
                         }
                         if let nextPageURL = viewModel.nextPageURL {
                             paginationFooter.task(id: nextPageURL) {
@@ -80,15 +119,18 @@ struct CharacterListView: View {
                             }
                         }
                     }
+                    .frame(maxWidth: 700)
                     .padding(16)
+                    .frame(maxWidth: .infinity)
                 }
+                .refreshable { await viewModel.loadCharacters(debounce: false) }
             }
 
         case .failed(let message):
             ContentUnavailableView {
                 Label("Could not load characters", systemImage: "exclamationmark.triangle")
             } description: {
-                Text(message)
+                Text(message.localized(locale: locale))
             } actions: {
                 Button("Try again") {
                     retryCount += 1
@@ -100,7 +142,7 @@ struct CharacterListView: View {
     private var paginationFooter: some View {
         VStack(spacing: 8) {
             if let message = viewModel.nextPageError {
-                Text(message)
+                Text(message.localized(locale: locale))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -114,6 +156,11 @@ struct CharacterListView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
+    }
+
+    private enum Sheet: Identifiable {
+        case filters, settings
+        var id: Self { self }
     }
 
     private struct LoadTrigger: Equatable {

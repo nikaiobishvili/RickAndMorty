@@ -10,6 +10,8 @@ struct CharacterRowView: View {
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
+    @Environment(\.locale) private var locale
+
     var body: some View {
         let layout = dynamicTypeSize.isAccessibilitySize
             ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
@@ -21,9 +23,9 @@ struct CharacterRowView: View {
                 Text(name)
                     .font(.headline)
                     .foregroundStyle(.primary)
-                Text("\(status) · \(species)")
+                Text(verbatim: "\(CharacterDisplayText.localized(status, locale: locale)) · \(CharacterDisplayText.localized(species, locale: locale))")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.primary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }

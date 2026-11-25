@@ -7,13 +7,13 @@ final class CharacterDetailsViewModel {
     enum State {
         case loading
         case loaded(CharacterDTO, [EpisodeDTO])
-        case failed
+        case failed(ErrorMessage)
     }
 
     enum ParticipantsState {
         case loading
         case loaded([CharacterDTO])
-        case failed
+        case failed(ErrorMessage)
     }
 
     private(set) var state: State = .loading
@@ -39,7 +39,9 @@ final class CharacterDetailsViewModel {
             try Task.checkCancellation()
             state = .loaded(character, episodes)
         } catch {
-            if !Task.isCancelled { state = .failed }
+            if !Task.isCancelled, (error as? URLError)?.code != .cancelled {
+                state = .failed(ErrorMessage(error))
+            }
         }
     }
 
@@ -71,7 +73,8 @@ final class CharacterDetailsViewModel {
             participants[episode.id] = .loaded(cast)
         } catch {
             guard participantRequests[episode.id] == requestID else { return }
-            participants[episode.id] = Task.isCancelled ? nil : .failed
+            participants[episode.id] = Task.isCancelled || (error as? URLError)?.code == .cancelled
+                ? nil : .failed(ErrorMessage(error))
         }
     }
 }

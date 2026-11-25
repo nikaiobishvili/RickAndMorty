@@ -10,14 +10,18 @@ struct CharacterDetailsView: View {
         _viewModel = State(initialValue: CharacterDetailsViewModel(id: id, repository: repository))
     }
 
+    @Environment(\.locale) private var locale
+
     var body: some View {
         Group {
             switch viewModel.state {
             case .loading:
                 ProgressView("Loading character…")
-            case .failed:
+            case .failed(let message):
                 ContentUnavailableView {
                     Label("Could not load character", systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text(message.localized(locale: locale))
                 } actions: {
                     Button("Try again") { retryCount += 1 }
                 }
@@ -25,6 +29,7 @@ struct CharacterDetailsView: View {
                 details(character, episodes: episodes)
             }
         }
+        .background(AppBackgroundSurface())
         .navigationTitle("Character Details")
         .navigationBarTitleDisplayMode(.inline)
         .task(id: retryCount) { await viewModel.load() }
@@ -38,21 +43,21 @@ struct CharacterDetailsView: View {
                     .font(.largeTitle.bold())
                     .accessibilityAddTraits(.isHeader)
                 VStack(alignment: .leading, spacing: 12) {
-                    LabeledContent("Status", value: character.status)
-                    LabeledContent("Species", value: character.species)
+                    DetailInfoRow(title: "Status", value: CharacterDisplayText.localized(character.status, locale: locale))
+                    DetailInfoRow(title: "Species", value: CharacterDisplayText.localized(character.species, locale: locale))
                     if !character.type.isEmpty {
-                        LabeledContent("Type", value: character.type)
+                        DetailInfoRow(title: "Type", value: character.type)
                     }
-                    LabeledContent("Gender", value: character.gender)
-                    LabeledContent("Origin", value: character.origin.name)
-                    LabeledContent("Last known location", value: character.location.name)
+                    DetailInfoRow(title: "Gender", value: CharacterDisplayText.localized(character.gender, locale: locale))
+                    DetailInfoRow(title: "Origin", value: CharacterDisplayText.localized(character.origin.name, locale: locale))
+                    DetailInfoRow(title: "Last known location", value: CharacterDisplayText.localized(character.location.name, locale: locale))
                 }
                 .padding(16)
                 .background(.secondary.opacity(0.1), in: RoundedRectangle(cornerRadius: 16))
 
                 Text("Episodes").font(.title2.bold()).accessibilityAddTraits(.isHeader)
                 if episodes.isEmpty {
-                    Text("No episodes found.").foregroundStyle(.secondary)
+                    Text("No episodes found.").foregroundStyle(.primary)
                 }
                 ForEach(episodes) { episode in
                     episodeSection(episode)
@@ -62,6 +67,14 @@ struct CharacterDetailsView: View {
             .padding(16)
             .frame(maxWidth: .infinity)
         }
+    }
+
+    private func localizedDate(_ value: String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "MMMM d, yyyy"
+        guard let date = formatter.date(from: value) else { return value }
+        return date.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted).locale(locale))
     }
 
     private func episodeSection(_ episode: EpisodeDTO) -> some View {
@@ -79,9 +92,9 @@ struct CharacterDetailsView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(episode.name).font(.headline)
-                        Text("\(episode.episode) · \(episode.airDate)")
+                        Text(verbatim: "\(episode.episode) · \(localizedDate(episode.airDate))")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.primary)
                     }
                     Spacer()
                     Image(systemName: expanded ? "chevron.up" : "chevron.down")
@@ -91,6 +104,7 @@ struct CharacterDetailsView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("episode-\(episode.id)")
             .accessibilityValue(expanded ? Text("Expanded") : Text("Collapsed"))
 
             if expanded {
@@ -109,13 +123,17 @@ struct CharacterDetailsView: View {
         switch viewModel.participants[episode.id] {
         case .none, .some(.loading):
             ProgressView("Loading participants…")
-        case .some(.failed):
-            Button("Retry loading participants") {
-                participantRetries[episode.id, default: 0] += 1
+        case .some(.failed(let message)):
+            VStack(alignment: .leading, spacing: 8) {
+                Text(message.localized(locale: locale)).font(.callout).foregroundStyle(.primary)
+                Button("Retry loading participants") {
+                    participantRetries[episode.id, default: 0] += 1
+                }
+                .frame(minHeight: 44)
             }
         case .some(.loaded(let cast)):
             if cast.isEmpty {
-                Text("No other participants.").foregroundStyle(.secondary)
+                Text("No other participants.").foregroundStyle(.primary)
             } else {
                 ScrollView(.horizontal) {
                     LazyHStack(alignment: .top, spacing: 12) {
@@ -130,9 +148,13 @@ struct CharacterDetailsView: View {
                                 .frame(width: 84)
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("participant-\(character.id)")
+                            .accessibilityLabel(character.name)
+                            .accessibilityHint("Open character details")
                         }
                     }
                 }
+                .accessibilityIdentifier("participants-\(episode.id)")
             }
         }
     }

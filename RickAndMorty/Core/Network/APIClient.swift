@@ -1,41 +1,29 @@
-
 import Foundation
 
 nonisolated protocol APIClient: Sendable {
     func send<Response: Decodable & Sendable>(
-        _ request: URLRequest,
-        as responseType: Response.Type
+        _ request: URLRequest, as responseType: Response.Type
     ) async throws -> Response
 }
 
 actor URLSessionAPIClient: APIClient {
-    private let session: URLSession
+    private let transport: any HTTPTransport
 
-    init(session: URLSession = .shared) {
-        self.session = session
+    init(session: URLSession = .shared, cache: any ResponseCache = DiskResponseCache.shared) {
+        transport = CachingHTTPTransport(upstream: URLSessionHTTPTransport(session: session), cache: cache)
     }
 
+    init(transport: any HTTPTransport) { self.transport = transport }
+
     func send<Response: Decodable & Sendable>(
-        _ request: URLRequest,
-        as responseType: Response.Type
+        _ request: URLRequest, as responseType: Response.Type
     ) async throws -> Response {
         try Task.checkCancellation()
-
-        let (data, response) = try await session.data(for: request)
-
+        let response = try await transport.response(for: request)
         try Task.checkCancellation()
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw APIError.invalidResponse
+        guard (200..<300).contains(response.statusCode) else {
+            throw APIError.httpStatus(response.statusCode)
         }
-
-        guard (200..<300).contains(httpResponse.statusCode) else {
-            throw APIError.httpStatus(httpResponse.statusCode)
-        }
-
-        return try JSONDecoder().decode(
-            responseType,
-            from: data
-        )
+        return try JSONDecoder().decode(responseType, from: response.data)
     }
 }

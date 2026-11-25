@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import RickAndMorty
 
-private actor RecordingAPIClient: APIClient {
+actor RecordingAPIClient: APIClient {
     private(set) var requests: [URLRequest] = []
     private let responses: [String]
 
@@ -20,7 +20,7 @@ private actor RecordingAPIClient: APIClient {
     }
 }
 
-private func characterJSON(_ id: Int) -> String {
+func characterJSON(_ id: Int) -> String {
     """
     {
       "id": \(id), "name": "Character \(id)", "status": "Alive",
@@ -32,7 +32,7 @@ private func characterJSON(_ id: Int) -> String {
     """
 }
 
-private func pageJSON(_ ids: [Int], next: Bool = false) -> String {
+func pageJSON(_ ids: [Int], next: Bool = false) -> String {
     let results = ids.map(characterJSON).joined(separator: ",")
     let nextURL = next ? #""https://rickandmortyapi.com/api/character?page=2""# : "null"
     return """
@@ -115,5 +115,25 @@ struct CharacterListViewModelTests {
         #expect(viewModel.nextPageURL != nil)
         #expect(viewModel.nextPageError != nil)
         #expect(!viewModel.isLoadingNextPage)
+    }
+}
+
+nonisolated private struct NotFoundClient: APIClient {
+    func send<Response: Decodable & Sendable>(
+        _ request: URLRequest, as responseType: Response.Type
+    ) async throws -> Response { throw APIError.httpStatus(404) }
+}
+
+struct EmptySearchTests {
+    @Test func filtered404MeansNoMatchesButUnfiltered404RemainsAnError() async throws {
+        let repository = RemoteCharactersRepository(client: NotFoundClient())
+        let result = try await repository.fetchCharacters(name: "Nobody", filters: .init())
+        #expect(result.results.isEmpty)
+        #expect(result.info.next == nil)
+        let filtered = try await repository.fetchCharacters(name: "", filters: .init(status: .dead))
+        #expect(filtered.results.isEmpty)
+        await #expect(throws: APIError.self) {
+            try await repository.fetchCharacters(name: "", filters: .init())
+        }
     }
 }
