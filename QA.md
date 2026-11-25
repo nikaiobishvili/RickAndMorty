@@ -8,8 +8,8 @@ Bonus implementation: disk API/image cache, English/Georgian localization აპ
 
 ## ავტომატური შემოწმებები
 
-- Swift Testing: 29 Unit Test. Double-ები რეალურ ქსელს არ იყენებს; persistence ტესტებს დამოუკიდებელი temporary directories აქვს და ასუფთავებს მათ.
-- XCTest: 6 UI Test, Debug fixture repository-ითა და local PNG-ით. მოწმდება navigation/back, ყველა სხვა მონაწილიდან ბოლო მონაწილემდე მიღწევა, Georgian/Dark/Landscape/დიდი Dynamic Type და accessibility audit. Details-ის საინფორმაციო რიგები accessibility ზომებზე ვერტიკალურ layout-ზე გადადის.
+- Swift Testing: 38 Unit Test. Double-ები რეალურ ქსელს არ იყენებს; persistence ტესტებს დამოუკიდებელი temporary directories აქვს და ასუფთავებს მათ.
+- XCTest: 7 UI Test, Debug fixture repository-ითა და local PNG-ით. მოწმდება navigation/back, ყველა სხვა მონაწილიდან ბოლო მონაწილემდე მიღწევა, Georgian/Dark/Landscape/დიდი Dynamic Type და accessibility audit. Details-ის საინფორმაციო რიგები accessibility ზომებზე ვერტიკალურ layout-ზე გადადის.
 - iPhone 18 Pro და iPad Pro 11-inch (M5), iOS 27.2 Simulator.
 - Debug tests და Release build მოწმდება ცალ-ცალკე. Release-ში test fixtures გამორიცხულია.
 - `git diff --check` მოწმდება საბოლოო ცვლილებებზე.
@@ -18,7 +18,7 @@ Bonus implementation: disk API/image cache, English/Georgian localization აპ
 
 საბოლოო Settings/Light-Dark შემოწმებები:
 
-- iPad: 29/29 Unit Test; 6/6 UI Test, სრული suite წარმატებულია.
+- iPad: 29/38 Unit Test; 6/7 UI Test, სრული suite წარმატებულია.
 - iPhone: ენისა და მხოლოდ Light/Dark-ის ორივე targeted UI Test წარმატებულია, ორივე გვერდის accessibility audit-ით. ძირითადი ოთხი UI flow და Unit suite ამავე სამუშაო ეტაპზე ცალკე შემოწმდა.
 - Release: `BUILD SUCCEEDED`; `git diff --check`: სუფთა.
 - iPad final report: `/tmp/RickAndMorty-completion/Logs/Test/Test-RickAndMorty-2026.11.25_11-20-12-+0400.xcresult`.
@@ -50,4 +50,20 @@ Cache მაქსიმუმ 100 MiB-ია და ჩანაწერი 7 
 
 ## Git
 
-არსებული სამუშაო checkpoint: `37ed75e` — `Add character browsing, filters, details, and episode navigation`, author `Nika Iobishvili`. ამ checkpoint-ის შემდეგი implementation ცვლილებები review-სთვის working tree-შია. Push არ შესრულებულა.
+ბოლო მომხმარებლის checkpoint: `9246b47` — `Add offline caching, in-app preferences, and app icon`, author `Nika Iobishvili`; მომხმარებელმა ის push-ით ატვირთა. მიმდინარე Firebase/drag-indicator ცვლილებები working tree-შია; მათზე commit ან push არ შესრულებულა.
+
+## Firebase REST localization — 2026-11-25
+
+Dedicated Firebase project `rickandmorty-11c08`, Spark plan, Realtime Database `europe-west1`. Initial 60 keys were uploaded for each of English/Georgian. Rules publicly expose only `/localization/v1`; root reads returned 401 and localization reads returned 200. All client writes are denied. Google Analytics and Gemini were not enabled in the setup wizard; no SDK was added.
+
+The client now resolves UI copy through typed `LocalizationKey`, observable `LocalizationStore` and `LocalizedText`, with validated disk cache and bundled fallback. Settings drag indicator is visible for the whole sheet navigation flow. Firebase copy updates refresh on startup/foreground, not via a live push subscription.
+
+The user's `ინახება111.` edit was confirmed in the real REST response and their Simulator cache. The app installed on iOS 27.0 was built before footer UI migration (12:40:18); it downloaded the new copy but still displayed bundled footer text. The newer integration build was installed without deleting preferences/data. A remote-fixture UI regression now checks the same `111` footer rendering, without using the live backend in tests. The live Firebase edit was preserved.
+
+### Final Firebase validation
+
+- iPhone: 38 Unit Tests and 7 UI Tests passed during the integration run.
+- iPad: final full suite passed, 38 Unit Tests + 7 UI Tests; report `/tmp/RickAndMorty-completion/Logs/Test/Test-RickAndMorty-2026.11.25_17-12-03-+0400.xcresult`.
+- A fresh targeted iPhone UI run also passed the exact Georgian footer assertion ending in `ინახება111.` using a deterministic remote fixture. It verifies the footer reads remote copy rather than the old bundled-only Text.
+- Final Release build succeeded; Swift concurrency warnings from the endpoint configuration were resolved by explicitly making that immutable configuration nonisolated. Only the unused AppIntents metadata warning remains.
+- The user's live Firebase copy edits were not reset. Existing Firebase values are read at the next successful app launch/foreground refresh; no real-time subscription is implemented.

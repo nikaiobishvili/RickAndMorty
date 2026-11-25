@@ -4,9 +4,10 @@ import XCTest
 final class CharacterFlowTests: XCTestCase {
     override func setUpWithError() throws { continueAfterFailure = false }
 
-    private func launch(language: String = "en", largeText: Bool = false, resetSettings: Bool = true) -> XCUIApplication {
+    private func launch(language: String = "en", largeText: Bool = false, resetSettings: Bool = true, remoteTranslations: Bool = false) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "-AppleLanguages", "(\(language))", "-AppleLocale", language == "ka" ? "ka_GE" : "en_US"]
+        if remoteTranslations { app.launchArguments.append("--remote-localization-fixture") }
         if resetSettings { app.launchArguments.append("--reset-settings") }
         if largeText { app.launchArguments += ["--dark-mode", "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"] }
         app.launch()
@@ -128,6 +129,22 @@ final class CharacterFlowTests: XCTestCase {
         XCTAssertTrue(relaunched.buttons["theme-light"].isSelected)
         attachScreenshot("In-app Light background settings")
         dismissSettings(in: relaunched)
+    }
+
+    func testRemoteTranslationsReachTitlesRowsAndLanguageScreen() throws {
+        let app = launch(remoteTranslations: true)
+        XCTAssertTrue(app.navigationBars["Remote characters"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["character-1"].label.contains("Remote Alive"))
+        app.buttons["app-settings"].tap()
+        XCTAssertTrue(app.navigationBars["Remote settings"].waitForExistence(timeout: 5))
+        attachScreenshot("Remote settings with drag indicator")
+        app.buttons["open-language-settings"].tap()
+        XCTAssertTrue(app.navigationBars["Remote language"].waitForExistence(timeout: 5))
+        app.buttons["language-ka"].tap()
+        XCTAssertTrue(app.navigationBars["ენა სერვერიდან"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["ენა მაშინვე იცვლება და აპლიკაციის ხელახლა გახსნის შემდეგაც ინახება111."].exists)
+        dismissSettings(in: app)
+        XCTAssertTrue(app.navigationBars["პერსონაჟები სერვერიდან"].waitForExistence(timeout: 5))
     }
 
     private func dismissSettings(in app: XCUIApplication) {

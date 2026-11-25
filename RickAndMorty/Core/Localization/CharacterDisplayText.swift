@@ -2,18 +2,21 @@ import Foundation
 
 /// Only API enum values are translated; proper names remain untouched.
 enum CharacterDisplayText {
-    static func localized(_ value: String, locale: Locale) -> String {
+    static func localized(_ value: String, locale: Locale, localization: LocalizationStore? = nil) -> String {
+        let key: LocalizationKey
         switch value.lowercased() {
-        case "any": AppLocalization.string("Any", locale: locale)
-        case "alive": AppLocalization.string("Alive", locale: locale)
-        case "dead": AppLocalization.string("Dead", locale: locale)
-        case "unknown": AppLocalization.string("Unknown", locale: locale)
-        case "female": AppLocalization.string("Female", locale: locale)
-        case "male": AppLocalization.string("Male", locale: locale)
-        case "genderless": AppLocalization.string("Genderless", locale: locale)
-        case "human": AppLocalization.string("Human", locale: locale)
-        case "alien": AppLocalization.string("Alien", locale: locale)
-        default: value
+        case "any": key = .anyText
+        case "alive": key = .alive
+        case "dead": key = .dead
+        case "unknown": key = .unknown
+        case "female": key = .female
+        case "male": key = .male
+        case "genderless": key = .genderless
+        case "human": key = .human
+        case "alien": key = .alien
+        default: return value
         }
+        return localization?.string(key, locale: locale)
+            ?? AppLocalization.render(AppLocalization.bundledTemplate(key, locale: locale), arguments: [:])
     }
 }

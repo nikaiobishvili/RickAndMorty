@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CharacterFiltersView: View {
+    @Environment(LocalizationStore.self) private var localization
     @Binding var filters: CharacterFilters
     @Environment(\.dismiss) private var dismiss
     @State private var draft: CharacterFilters
@@ -15,36 +16,36 @@ struct CharacterFiltersView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Picker("Status", selection: $draft.status) {
+                Picker(selection: $draft.status) {
                     ForEach(CharacterFilters.Status.allCases, id: \.self) {
-                        Text(CharacterDisplayText.localized($0.rawValue.capitalized, locale: locale)).tag($0)
+                        Text(CharacterDisplayText.localized($0.rawValue.capitalized, locale: locale, localization: localization)).tag($0)
                     }
-                }
-                Picker("Gender", selection: $draft.gender) {
+                } label: { LocalizedText(.status) }
+                Picker(selection: $draft.gender) {
                     ForEach(CharacterFilters.Gender.allCases, id: \.self) {
-                        Text(CharacterDisplayText.localized($0.rawValue.capitalized, locale: locale)).tag($0)
+                        Text(CharacterDisplayText.localized($0.rawValue.capitalized, locale: locale, localization: localization)).tag($0)
                     }
-                }
-                TextField("Species", text: $draft.species)
+                } label: { LocalizedText(.gender) }
+                TextField(text: $draft.species, prompt: Text(localization.string(.species, locale: locale))) { LocalizedText(.species) }
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
-                Text("Enter species in English, for example Human or Alien.")
+                LocalizedText(.enterSpeciesInEnglishForExampleHumanOrAlien)
                     .font(.footnote).foregroundStyle(.secondary)
-                Button("Reset filters") { draft = CharacterFilters() }
+                Button { draft = CharacterFilters() } label: { LocalizedText(.resetFilters) }
             }
             .scrollContentBackground(.hidden)
             .background(AppBackgroundSurface(grouped: true))
-            .navigationTitle("Filters")
+            .navigationTitle(Text(localization.string(.filters, locale: locale)))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button { dismiss() } label: { LocalizedText(.cancel) }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Apply") {
+                    Button {
                         filters = draft
                         dismiss()
-                    }
+                    } label: { LocalizedText(.apply) }
                 }
             }
         }

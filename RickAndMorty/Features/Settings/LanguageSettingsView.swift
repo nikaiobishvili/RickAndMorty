@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct LanguageSettingsView: View {
+    @Environment(LocalizationStore.self) private var localization
+    @Environment(\.locale) private var locale
     @Environment(AppSettings.self) private var settings
 
     var body: some View {
@@ -27,14 +29,14 @@ struct LanguageSettingsView: View {
                     .accessibilityAddTraits(settings.language == language ? .isSelected : [])
                 }
             } footer: {
-                Text("The language changes immediately and is remembered next time you open the app.")
+                LocalizedText(.theLanguageChangesImmediatelyAndIsRememberedNextTimeYouOpenTheApp)
                     .font(.footnote)
                     .foregroundStyle(Color.primary)
             }
         }
         .scrollContentBackground(.hidden)
         .background(AppBackgroundSurface(grouped: true))
-        .navigationTitle(Text(AppLocalization.string("App language", locale: settings.locale)))
+        .navigationTitle(Text(localization.string(.appLanguage, locale: settings.locale)))
         .navigationBarTitleDisplayMode(.inline)
         .environment(\.locale, settings.locale)
     }
@@ -42,7 +44,7 @@ struct LanguageSettingsView: View {
     @ViewBuilder
     private func label(for language: AppLanguage) -> some View {
         switch language {
-        case .system: Text("Follow system")
+        case .system: LocalizedText(.followSystem)
         case .english: Text(verbatim: "English")
         case .georgian: Text(verbatim: "ქართული")
         }

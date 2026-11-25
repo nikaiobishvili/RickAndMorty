@@ -8,10 +8,10 @@ extension AppTheme {
         }
     }
 
-    var title: LocalizedStringKey {
+    var title: LocalizationKey {
         switch self {
-        case .light: "Light"
-        case .dark: "Dark"
+        case .light: .light
+        case .dark: .dark
         }
     }
 }

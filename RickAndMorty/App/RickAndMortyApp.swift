@@ -16,6 +16,19 @@ struct RickAndMortyApp: App {
         return AppSettings()
     }()
 
+    @State private var localization: LocalizationStore = {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
+            return LocalizationStore(provider: ProcessInfo.processInfo.arguments.contains("--remote-localization-fixture")
+                                     ? PreviewLocalizationProvider() : nil)
+        }
+        #endif
+        return LocalizationStore(
+            provider: FirebaseLocalizationProvider(endpoint: FirebaseLocalizationConfiguration.endpoint),
+            cache: DiskLocalizationCache()
+        )
+    }()
+
     private let repository: any CharactersRepository & CharacterDetailsRepository = {
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("--ui-testing") { return PreviewRepository() }
@@ -34,6 +47,7 @@ struct RickAndMortyApp: App {
         WindowGroup {
             AppRootView(repository: repository, imageLoader: imageLoader)
             .environment(settings)
+            .environment(localization)
         }
     }
 }
@@ -41,6 +55,8 @@ struct RickAndMortyApp: App {
 /// A View observes language changes and updates the existing navigation hierarchy.
 private struct AppRootView: View {
     @Environment(AppSettings.self) private var settings
+    @Environment(LocalizationStore.self) private var localization
+    @Environment(\.scenePhase) private var scenePhase
     let repository: any CharactersRepository & CharacterDetailsRepository
     let imageLoader: any ImageDataLoader
 
@@ -59,5 +75,8 @@ private struct AppRootView: View {
         .environment(\.locale, settings.locale)
         .environment(\.imageDataLoader, imageLoader)
         .preferredColorScheme(preferredScheme)
+        .task(id: scenePhase) {
+            if scenePhase == .active { await localization.refresh() }
+        }
     }
 }

@@ -38,3 +38,17 @@ nonisolated struct PreviewImageLoader: ImageDataLoader {
     }
 }
 #endif
+
+#if DEBUG
+nonisolated struct PreviewLocalizationProvider: RemoteLocalizationProviding {
+    func fetch() async throws -> RemoteLocalization {
+        RemoteLocalization(schemaVersion: 1, revision: 1, languages: [
+            "en": .init(strings: ["settings": "Remote settings", "characters": "Remote characters",
+                                  "app_language": "Remote language", "alive": "Remote Alive"]),
+            "ka": .init(strings: ["settings": "პარამეტრები სერვერიდან", "characters": "პერსონაჟები სერვერიდან",
+                                  "app_language": "ენა სერვერიდან", "alive": "ცოცხალი სერვერიდან",
+                                  "the_language_changes_immediately_and_is_remembered_next_time_you_open_the_app": "ენა მაშინვე იცვლება და აპლიკაციის ხელახლა გახსნის შემდეგაც ინახება111."])
+        ])
+    }
+}
+#endif

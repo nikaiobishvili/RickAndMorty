@@ -21,14 +21,20 @@ nonisolated enum ErrorMessage: Equatable, Sendable {
     }
 
     @MainActor
-    func localized(locale: Locale) -> String {
+    func localized(locale: Locale, localization: LocalizationStore? = nil) -> String {
+        let key: LocalizationKey
+        var arguments: [String: String] = [:]
         switch self {
-        case .offline: AppLocalization.string("You appear to be offline.", locale: locale)
-        case .timedOut: AppLocalization.string("The request timed out. Please try again.", locale: locale)
-        case .connection: AppLocalization.string("Could not connect to the server.", locale: locale)
-        case .decoding: AppLocalization.string("The server returned data we could not read.", locale: locale)
-        case .server(let code): AppLocalization.string("The server returned an error (\(code)).", locale: locale)
-        case .unknown: AppLocalization.string("Could not load data. Please try again.", locale: locale)
+        case .offline: key = .youAppearToBeOffline
+        case .timedOut: key = .theRequestTimedOutPleaseTryAgain
+        case .connection: key = .couldNotConnectToTheServer
+        case .decoding: key = .theServerReturnedDataWeCouldNotRead
+        case .server(let code):
+            key = .theServerReturnedAnErrorLld
+            arguments["code"] = String(code)
+        case .unknown: key = .couldNotLoadDataPleaseTryAgain
         }
+        return localization?.string(key, locale: locale, arguments: arguments)
+            ?? AppLocalization.render(AppLocalization.bundledTemplate(key, locale: locale), arguments: arguments)
     }
 }

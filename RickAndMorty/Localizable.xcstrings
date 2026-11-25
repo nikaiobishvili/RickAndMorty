@@ -1,969 +1,1026 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "Alien" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alien"
+  "sourceLanguage": "en",
+  "strings": {
+    "Alien": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alien"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "უცხოპლანეტელი"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "უცხოპლანეტელი"
           }
         }
       }
     },
-    "Alive" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alive"
+    "Alive": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alive"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ცოცხალი"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ცოცხალი"
           }
         }
       }
     },
-    "Any" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Any"
+    "Any": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Any"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ყველა"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ყველა"
           }
         }
       }
     },
-    "App language" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App language"
+    "App language": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App language"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "აპლიკაციის ენა"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "აპლიკაციის ენა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Apply": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "გამოყენება"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Background": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Background"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ბექგრაუნდი"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Cancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "გაუქმება"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Character Details": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Character Details"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟის დეტალები"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Characters": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Characters"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟები"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Collapsed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapsed"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "დაკეცილია"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Could not connect to the server.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not connect to the server."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სერვერთან დაკავშირება ვერ მოხერხდა."
           }
         }
       }
     },
-    "Apply" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apply"
+    "Could not load character": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not load character"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "გამოყენება"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟი ვერ ჩაიტვირთა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Could not load characters": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not load characters"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟები ვერ ჩაიტვირთა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Could not load characters. Please try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not load characters. Please try again."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟები ვერ ჩაიტვირთა. სცადე ხელახლა."
           }
         }
       }
     },
-    "Background" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Background"
+    "Could not load data. Please try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not load data. Please try again."
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ბექგრაუნდი"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მონაცემები ვერ ჩაიტვირთა. სცადე ხელახლა."
           }
         }
       }
     },
-    "Cancel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
+    "Dark": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "გაუქმება"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მუქი"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Dead": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dead"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მკვდარი"
           }
         }
       }
     },
-    "Character Details" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Character Details"
+    "Done": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟის დეტალები"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "დასრულება"
           }
         }
       }
     },
-    "Characters" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Characters"
+    "Enter species in English, for example Human or Alien.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter species in English, for example Human or Alien."
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟები"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სახეობა ჩაწერე ინგლისურად, მაგალითად Human ან Alien."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Episodes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Episodes"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ეპიზოდები"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Expanded": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expanded"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "გაშლილია"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Female": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Female"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მდედრობითი"
           }
         }
       }
     },
-    "Collapsed" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collapsed"
+    "Filter characters": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter characters"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "დაკეცილია"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟების გაფილტვრა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Filters": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filters"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ფილტრები"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Follow system": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Follow system"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სისტემის მიხედვით"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Gender": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gender"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სქესი"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Genderless": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genderless"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "უსქესო"
           }
         }
       }
     },
-    "Could not connect to the server." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Could not connect to the server."
+    "Human": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Human"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სერვერთან დაკავშირება ვერ მოხერხდა."
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ადამიანი"
           }
         }
       }
     },
-    "Could not load character" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Could not load character"
+    "Language": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟი ვერ ჩაიტვირთა"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ენა"
           }
         }
       }
     },
-    "Could not load characters" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Could not load characters"
+    "Last known location": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last known location"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟები ვერ ჩაიტვირთა"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ბოლო ცნობილი მდებარეობა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Light": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ღია"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Light or Dark": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Theme"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "აპლიკაციის თემა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Loading character…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading character…"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟი იტვირთება…"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Loading characters…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading characters…"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟები იტვირთება…"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Loading more…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading more…"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "შემდეგი გვერდი იტვირთება…"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Loading participants…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading participants…"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მონაწილეები იტვირთება…"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Male": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Male"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მამრობითი"
           }
         }
       }
     },
-    "Could not load characters. Please try again." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Could not load characters. Please try again."
+    "No characters found": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No characters found"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟები ვერ ჩაიტვირთა. სცადე ხელახლა."
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟები ვერ მოიძებნა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "No episodes found.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No episodes found."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ეპიზოდები ვერ მოიძებნა."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "No other participants.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No other participants."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სხვა მონაწილეები არ არიან."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Open character details": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open character details"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟის დეტალების გახსნა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Origin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Origin"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "წარმოშობა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Reset filters": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset filters"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ფილტრების გასუფთავება"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Retry loading more": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry loading more"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "შემდეგი გვერდის ხელახლა ჩატვირთვა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Retry loading participants": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry loading participants"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მონაწილეების ხელახლა ჩატვირთვა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Search characters": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search characters"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მოძებნე პერსონაჟი"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Settings": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პარამეტრები"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Species": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Species"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სახეობა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Status": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სტატუსი"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "The background changes immediately and is remembered next time you open the app.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The background changes immediately and is remembered next time you open the app."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ბექგრაუნდი მაშინვე იცვლება და აპლიკაციის ხელახლა გახსნის შემდეგაც ინახება."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "The language changes immediately and is remembered next time you open the app.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The language changes immediately and is remembered next time you open the app."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ენა მაშინვე იცვლება და აპლიკაციის ხელახლა გახსნის შემდეგაც ინახება."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "The request timed out. Please try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The request timed out. Please try again."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "მოთხოვნის დრო ამოიწურა. სცადე ხელახლა."
           }
         }
       }
     },
-    "Could not load data. Please try again." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Could not load data. Please try again."
+    "The server returned an error (%lld).": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server returned an error (%lld)."
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მონაცემები ვერ ჩაიტვირთა. სცადე ხელახლა."
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სერვერმა დააბრუნა შეცდომა (%lld)."
           }
         }
       }
     },
-    "Dark" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dark"
+    "The server returned data we could not read.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server returned data we could not read."
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მუქი"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სერვერის პასუხის წაკითხვა ვერ მოხერხდა."
           }
         }
       }
     },
-    "Dead" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dead"
+    "Try again": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მკვდარი"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სცადე ხელახლა"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Try another name or reset the filters.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try another name or reset the filters."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "სცადე სხვა სახელი ან გაასუფთავე ფილტრები."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ტიპი"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "უცნობი"
           }
         }
       }
     },
-    "Done" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
+    "Updating characters…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updating characters…"
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "დასრულება"
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "პერსონაჟები ახლდება…"
           }
         }
-      }
+      },
+      "extractionState": "manual"
     },
-    "Enter species in English, for example Human or Alien." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter species in English, for example Human or Alien."
+    "You appear to be offline.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You appear to be offline."
           }
         },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სახეობა ჩაწერე ინგლისურად, მაგალითად Human ან Alien."
-          }
-        }
-      }
-    },
-    "Episodes" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episodes"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ეპიზოდები"
-          }
-        }
-      }
-    },
-    "Expanded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Expanded"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "გაშლილია"
-          }
-        }
-      }
-    },
-    "Female" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Female"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მდედრობითი"
-          }
-        }
-      }
-    },
-    "Filter characters" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filter characters"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟების გაფილტვრა"
-          }
-        }
-      }
-    },
-    "Filters" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filters"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ფილტრები"
-          }
-        }
-      }
-    },
-    "Follow system" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Follow system"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სისტემის მიხედვით"
-          }
-        }
-      }
-    },
-    "Gender" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gender"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სქესი"
-          }
-        }
-      }
-    },
-    "Genderless" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Genderless"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "უსქესო"
-          }
-        }
-      }
-    },
-    "Human" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Human"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ადამიანი"
-          }
-        }
-      }
-    },
-    "Language" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Language"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ენა"
-          }
-        }
-      }
-    },
-    "Last known location" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Last known location"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ბოლო ცნობილი მდებარეობა"
-          }
-        }
-      }
-    },
-    "Light" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Light"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ღია"
-          }
-        }
-      }
-    },
-    "Light or Dark" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Theme"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "აპლიკაციის თემა"
-          }
-        }
-      }
-    },
-    "Loading character…" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading character…"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟი იტვირთება…"
-          }
-        }
-      }
-    },
-    "Loading characters…" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading characters…"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟები იტვირთება…"
-          }
-        }
-      }
-    },
-    "Loading more…" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading more…"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "შემდეგი გვერდი იტვირთება…"
-          }
-        }
-      }
-    },
-    "Loading participants…" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading participants…"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მონაწილეები იტვირთება…"
-          }
-        }
-      }
-    },
-    "Male" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Male"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მამრობითი"
-          }
-        }
-      }
-    },
-    "No characters found" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No characters found"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟები ვერ მოიძებნა"
-          }
-        }
-      }
-    },
-    "No episodes found." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No episodes found."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ეპიზოდები ვერ მოიძებნა."
-          }
-        }
-      }
-    },
-    "No other participants." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No other participants."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სხვა მონაწილეები არ არიან."
-          }
-        }
-      }
-    },
-    "Open character details" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open character details"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟის დეტალების გახსნა"
-          }
-        }
-      }
-    },
-    "Origin" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Origin"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "წარმოშობა"
-          }
-        }
-      }
-    },
-    "Reset filters" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset filters"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ფილტრების გასუფთავება"
-          }
-        }
-      }
-    },
-    "Retry loading more" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retry loading more"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "შემდეგი გვერდის ხელახლა ჩატვირთვა"
-          }
-        }
-      }
-    },
-    "Retry loading participants" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retry loading participants"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მონაწილეების ხელახლა ჩატვირთვა"
-          }
-        }
-      }
-    },
-    "Search characters" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search characters"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მოძებნე პერსონაჟი"
-          }
-        }
-      }
-    },
-    "Settings" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პარამეტრები"
-          }
-        }
-      }
-    },
-    "Species" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Species"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სახეობა"
-          }
-        }
-      }
-    },
-    "Status" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Status"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სტატუსი"
-          }
-        }
-      }
-    },
-    "The background changes immediately and is remembered next time you open the app." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The background changes immediately and is remembered next time you open the app."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ბექგრაუნდი მაშინვე იცვლება და აპლიკაციის ხელახლა გახსნის შემდეგაც ინახება."
-          }
-        }
-      }
-    },
-    "The language changes immediately and is remembered next time you open the app." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The language changes immediately and is remembered next time you open the app."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ენა მაშინვე იცვლება და აპლიკაციის ხელახლა გახსნის შემდეგაც ინახება."
-          }
-        }
-      }
-    },
-    "The request timed out. Please try again." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The request timed out. Please try again."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "მოთხოვნის დრო ამოიწურა. სცადე ხელახლა."
-          }
-        }
-      }
-    },
-    "The server returned an error (%lld)." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The server returned an error (%lld)."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სერვერმა დააბრუნა შეცდომა (%lld)."
-          }
-        }
-      }
-    },
-    "The server returned data we could not read." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The server returned data we could not read."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სერვერის პასუხის წაკითხვა ვერ მოხერხდა."
-          }
-        }
-      }
-    },
-    "Try again" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try again"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სცადე ხელახლა"
-          }
-        }
-      }
-    },
-    "Try another name or reset the filters." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try another name or reset the filters."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "სცადე სხვა სახელი ან გაასუფთავე ფილტრები."
-          }
-        }
-      }
-    },
-    "Type" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Type"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ტიპი"
-          }
-        }
-      }
-    },
-    "Unknown" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unknown"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "უცნობი"
-          }
-        }
-      }
-    },
-    "Updating characters…" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Updating characters…"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "პერსონაჟები ახლდება…"
-          }
-        }
-      }
-    },
-    "You appear to be offline." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You appear to be offline."
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ინტერნეტთან კავშირი არ არის."
+        "ka": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ინტერნეტთან კავშირი არ არის."
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(LocalizationStore.self) private var localization
+    @Environment(\.locale) private var locale
     @Environment(AppSettings.self) private var settings
 
     var body: some View {
@@ -9,21 +11,21 @@ struct SettingsView: View {
                 NavigationLink {
                     LanguageSettingsView()
                 } label: {
-                    Label("App language", systemImage: "globe")
+                    Label { LocalizedText(.appLanguage) } icon: { Image(systemName: "globe") }
                 }
                 .accessibilityIdentifier("open-language-settings")
 
                 NavigationLink {
                     BackgroundSettingsView()
                 } label: {
-                    Label("Light or Dark", systemImage: "paintpalette")
+                    Label { LocalizedText(.lightOrDark) } icon: { Image(systemName: "paintpalette") }
                 }
                 .accessibilityIdentifier("open-background-settings")
 
             }
             .scrollContentBackground(.hidden)
             .background(AppBackgroundSurface(grouped: true))
-            .navigationTitle(Text(AppLocalization.string("Settings", locale: settings.locale)))
+            .navigationTitle(Text(localization.string(.settings, locale: settings.locale)))
             .navigationBarTitleDisplayMode(.inline)
         }
         .environment(\.locale, settings.locale)

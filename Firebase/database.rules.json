@@ -1,0 +1,12 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "localization": {
+      "v1": {
+        ".read": true,
+        ".write": false
+      }
+    }
+  }
+}

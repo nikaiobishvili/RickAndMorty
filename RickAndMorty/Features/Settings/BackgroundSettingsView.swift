@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct BackgroundSettingsView: View {
+    @Environment(LocalizationStore.self) private var localization
+    @Environment(\.locale) private var locale
     @Environment(AppSettings.self) private var settings
 
     var body: some View {
@@ -11,7 +13,7 @@ struct BackgroundSettingsView: View {
                         settings.selectTheme(theme)
                     } label: {
                         HStack {
-                            Text(theme.title)
+                            LocalizedText(theme.title)
                             Spacer()
                             if settings.appearance.theme == theme {
                                 Image(systemName: "checkmark").accessibilityHidden(true)
@@ -27,13 +29,13 @@ struct BackgroundSettingsView: View {
                     .accessibilityAddTraits(settings.appearance.theme == theme ? .isSelected : [])
                 }
             } footer: {
-                Text("The background changes immediately and is remembered next time you open the app.")
+                LocalizedText(.theBackgroundChangesImmediatelyAndIsRememberedNextTimeYouOpenTheApp)
                     .font(.footnote).foregroundStyle(Color.primary)
             }
         }
         .scrollContentBackground(.hidden)
         .background(AppBackgroundSurface(grouped: true))
-        .navigationTitle(Text(AppLocalization.string("Background", locale: settings.locale)))
+        .navigationTitle(Text(localization.string(.background, locale: settings.locale)))
         .navigationBarTitleDisplayMode(.inline)
         .environment(\.locale, settings.locale)
     }

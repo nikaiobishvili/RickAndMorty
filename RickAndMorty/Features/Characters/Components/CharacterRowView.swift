@@ -3,6 +3,7 @@ import Foundation
 import SwiftUI
 
 struct CharacterRowView: View {
+    @Environment(LocalizationStore.self) private var localization
     let name: String
     let status: String
     let species: String
@@ -23,7 +24,7 @@ struct CharacterRowView: View {
                 Text(name)
                     .font(.headline)
                     .foregroundStyle(.primary)
-                Text(verbatim: "\(CharacterDisplayText.localized(status, locale: locale)) · \(CharacterDisplayText.localized(species, locale: locale))")
+                Text(verbatim: "\(CharacterDisplayText.localized(status, locale: locale, localization: localization)) · \(CharacterDisplayText.localized(species, locale: locale, localization: localization))")
                     .font(.subheadline)
                     .foregroundStyle(.primary)
             }
@@ -46,10 +47,12 @@ struct CharacterRowView: View {
     )
     .padding(16)
     .preferredColorScheme(.light)
+    .environment(LocalizationStore())
 }
 
 #Preview("Dark") {
     CharacterRowView(name: "Rick Sanchez", status: "Alive", species: "Human")
         .padding(16)
         .preferredColorScheme(.dark)
+        .environment(LocalizationStore())
 }

@@ -35,9 +35,19 @@ API იყენებს network-first პოლიტიკას: კავ�
 7. `Details/CharacterDetailsViewModel.swift` — details/episodes და თითო episode-ის participants state. წარმატებით მიღებული მონაწილეები ViewModel-ის სიცოცხლის განმავლობაში თავიდან არ იტვირთება.
 8. `Components/CharacterAvatar.swift` — injectable image loader, task cancellation, loading და fallback; networking logic View-ში არ არის.
 9. `Features/Settings` — `AppSettings` ფლობს ენასა და Light/Dark რეჟიმს; `SettingsStore` persistence protocol-ია, `UserDefaultsSettingsStore` მისი რეალიზაცია. Settings-ის ორი სექცია ცალკე `LanguageSettingsView` და `BackgroundSettingsView` ეკრანებს ხსნის. View preferences-ის შენახვას პირდაპირ არ აკეთებს. Composition Root settings-სა და არჩეულ Locale-ს environment-ში გადასცემს. NavigationStack ენის ცვლილებაზე არ იქმნება თავიდან. Settings-ის ქვეეკრანები navigation title-ს არჩეული bundle-იდან პირდაპირ მიღებული ტექსტით აახლებენ; მის სანახავად გვერდიდან გასვლა საჭირო არ არის.
-10. `Core/Localization` და `Localizable.xcstrings` — UI თარგმანები და არჩეული bundle. `ErrorMessage` მნიშვნელობა ინახება ViewModel-ში; მისი ტექსტი View-ის Locale-ით ითარგმნება, ამიტომ უკვე ხილული error-იც ახალ ენაზე გადადის. იგივე Locale გამოიყენება status/gender მნიშვნელობებსა და თარიღებში. საკუთარი სახელები არ ითარგმნება.
+10. `Core/Localization` და `Localizable.xcstrings` — observable remote ტექსტები, validated cache და არჩეული bundle-ის fallback. `ErrorMessage` მნიშვნელობა ინახება ViewModel-ში; მისი ტექსტი View-ის Locale-ით ითარგმნება, ამიტომ უკვე ხილული error-იც ახალ ენაზე გადადის. იგივე Locale გამოიყენება status/gender მნიშვნელობებსა და თარიღებში. საკუთარი სახელები არ ითარგმნება.
 
 Release build ყოველთვის რეალურ Repository-ს იყენებს. მხოლოდ Debug-ში `--ui-testing` არგუმენტი რთავს `PreviewRepository`-სა და local PNG loader-ს. UI Tests არ საჭიროებს API-ს ან ინტერნეტს. `--reset-settings` მხოლოდ UI Tests-ის ცალკე UserDefaults suite-ს ასუფთავებს და ჩვეულებრივი მომხმარებლის არჩევანს არ ეხება. `--dark-mode` მხოლოდ Debug UI შემოწმებისთვისაა; ჩვეულებრივ აპი სისტემის theme-ს მიჰყვება.
+
+## Remote localization — Firebase REST
+
+Project `rickandmorty-11c08` uses Realtime Database in `europe-west1`, with no Firebase SDK. Existing String Catalog translations remain the fallback. Settings sheets show a drag indicator across the Settings, language and background screens.
+
+`LocalizationKey` contains stable server IDs and bundled-key mappings. Views use `LocalizedText(.settings)` or `localization.string(.settings, locale: locale)` for titles/labels. `CharacterDisplayText` and `ErrorMessage` use the same resolver. Personal character/episode names remain API content.
+
+`AppRootView` triggers `LocalizationStore.refresh()` on app startup/foreground. A validated cached dictionary is activated before fetching. A successful GET activates and caches the new complete dictionary; missing keys use bundled translations in the selected language. Downloads, schema and placeholders are validated before cache replacement. Concurrent refreshes share one request. This is not a real-time listener: changing Console text does not push an update to an app that remains in the foreground. For a copy change, go Home and reopen the app, or relaunch; opening another Settings page alone is insufficient.
+
+Once this integration is installed, existing remote copy changes require no new build. Adding a new screen or code key requires a build once. New key setup, JSON schema, endpoint and rules are documented in `Firebase/README.md`. The initial seed is a reference, not a file to re-import over subsequent Console edits.
 
 ## Unit Tests — რას ამოწმებს თითოეული
 
@@ -74,10 +84,19 @@ Release build ყოველთვის რეალურ Repository-ს ი�
 | `userDefaultsPersistsSelectionAndUnknownValuesFallBackToSystem` | რეალური UserDefaults adapter ინახავს ენას; არასწორი შენახული კოდი system არჩევანზე ბრუნდება. ტესტს საკუთარი suite აქვს. |
 | `dynamicValuesAndExistingErrorsUseTheSelectedLanguage` | status და უკვე შექმნილი error არჩეული ენით ითარგმნება, 503-ის კოდი რჩება, საკუთარი სახელი უცვლელია. |
 | `themePersistsIndependentlyOfLanguageAndLegacyColorsAreDiscarded` | Light/Dark ახალი Settings instance-იდან აღდგება, language შენარჩუნებულია; legacy ფერის ველი იგნორირდება, დაზიანებული appearance record Light-ზე ბრუნდება. |
+| `providerDecodesValidatedReadOnlyResponse` | Firebase JSON იკითხება და მოწმდება GET, Accept header და fresh-request policy. |
+| `incompatibleSchemaEmptyValuesAndInvalidPlaceholdersAreRejected` | არასწორი schema, ცარიელი ტექსტი და `{code}`-ის დაზიანება არ მიიღება. |
+| `unknownKeysAndLanguagesAllowForwardCompatibility` | მომავალი ვერსიის უცნობი keys/languages მიმდინარე აპს არ აფუჭებს. |
+| `providerRejectsHTTPFailuresLargeResponsesAndUntrustedURLs` | HTTP error, ზომის ზღვარი და დაუშვებელი endpoint სწორ შეცდომად ბრუნდება. |
+| `diskCacheSurvivesRecreationAndRejectsCorruption` | ვალიდური თარგმანი დისკიდან აღდგება, დაზიანებული ფაილი გამოტოვებულია. |
+| `remoteOverridesFallbackUsesRequestedLanguageAndFormatsArguments` | remote ტექსტი არჩეულ ენაზე გამოიყენება, missing key bundled-ზე ბრუნდება, error-ის `{code}` იცვლება; unsupported locale English-ს იყენებს. |
+| `offlineStartupUsesLastValidCache` | offline გაშვებისას ბოლო ვალიდური cache რჩება. |
+| `invalidDownloadNeverReplacesGoodCacheAndOlderRevisionIsIgnored` | არასწორი ან ძველი პასუხი ახალ/ვალიდურ თარგმანებს ვერ გადაწერს. |
+| `editedTextWithSameRevisionIsRefreshedAndOfflineDoesNotEraseIt` | Console copy edit იმავე revision-ითაც აისახება; შემდგომი offline error ტექსტს არ შლის. |
 
 ## UI Tests და QA
 
-`CharacterFlowTests` ამოწმებს list → details → episode → participant → back გზას, ბოლო მონაწილემდე გადახვევას, ქართული labels-ის არსებობას Landscape/დიდი ტექსტით და Character List/Details-ის automated accessibility audit-ს. ცალკე UI Test ამოწმებს Settings-ში English → ქართული ცვლილებას, ქართული status-ის გამოჩენას, app relaunch-ის შემდეგ არჩევანის შენარჩუნებას, English-ზე დაბრუნებასა და Follow system-ს. Background UI Test ამოწმებს Dark-ის არჩევას, app relaunch-ის შემდეგ აღდგენას, Light-ზე გადასვლასა და System/color-palette controls-ის არყოფნას. Language და Background ქვეეკრანები accessibility audit-ითაც მოწმდება. Screenshots ინახება `.xcresult` attachments-ში.
+`CharacterFlowTests` ამოწმებს list → details → episode → participant → back გზას, ბოლო მონაწილემდე გადახვევას, ქართული labels-ის არსებობას Landscape/დიდი ტექსტით და Character List/Details-ის automated accessibility audit-ს. ცალკე UI Test ამოწმებს Settings-ში English → ქართული ცვლილებას, ქართული status-ის გამოჩენას, app relaunch-ის შემდეგ არჩევანის შენარჩუნებას, English-ზე დაბრუნებასა და Follow system-ს. Background UI Test ამოწმებს Dark-ის არჩევას, app relaunch-ის შემდეგ აღდგენას, Light-ზე გადასვლასა და System/color-palette controls-ის არყოფნას. Language და Background ქვეეკრანები accessibility audit-ითაც მოწმდება. Remote fixture UI Test ამოწმებს სათაურის, status-ისა და ქართული ენის footer-ის remote მნიშვნელობებს, მათ შორის `111`-იან regression მაგალითს. Screenshots ინახება `.xcresult` attachments-ში.
 
 Automated audit VoiceOver-ის რეალური მოსმენისა და მოწყობილობაზე multitasking gestures-ის შემოწმებას არ ცვლის. Final QA-ის შედეგები და ასეთი შეზღუდვები მოცემულია `QA.md`-ში.
 

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CharacterDetailsView: View {
+    @Environment(LocalizationStore.self) private var localization
     @State private var viewModel: CharacterDetailsViewModel
     @State private var retryCount = 0
     @State private var expandedEpisodes: Set<Int> = []
@@ -16,21 +17,21 @@ struct CharacterDetailsView: View {
         Group {
             switch viewModel.state {
             case .loading:
-                ProgressView("Loading character…")
+                ProgressView { LocalizedText(.loadingCharacter) }
             case .failed(let message):
                 ContentUnavailableView {
-                    Label("Could not load character", systemImage: "exclamationmark.triangle")
+                    Label { LocalizedText(.couldNotLoadCharacter) } icon: { Image(systemName: "exclamationmark.triangle") }
                 } description: {
-                    Text(message.localized(locale: locale))
+                    Text(message.localized(locale: locale, localization: localization))
                 } actions: {
-                    Button("Try again") { retryCount += 1 }
+                    Button { retryCount += 1 } label: { LocalizedText(.tryAgain) }
                 }
             case .loaded(let character, let episodes):
                 details(character, episodes: episodes)
             }
         }
         .background(AppBackgroundSurface())
-        .navigationTitle("Character Details")
+        .navigationTitle(Text(localization.string(.characterDetails, locale: locale)))
         .navigationBarTitleDisplayMode(.inline)
         .task(id: retryCount) { await viewModel.load() }
     }
@@ -43,21 +44,21 @@ struct CharacterDetailsView: View {
                     .font(.largeTitle.bold())
                     .accessibilityAddTraits(.isHeader)
                 VStack(alignment: .leading, spacing: 12) {
-                    DetailInfoRow(title: "Status", value: CharacterDisplayText.localized(character.status, locale: locale))
-                    DetailInfoRow(title: "Species", value: CharacterDisplayText.localized(character.species, locale: locale))
+                    DetailInfoRow(title: .status, value: CharacterDisplayText.localized(character.status, locale: locale, localization: localization))
+                    DetailInfoRow(title: .species, value: CharacterDisplayText.localized(character.species, locale: locale, localization: localization))
                     if !character.type.isEmpty {
-                        DetailInfoRow(title: "Type", value: character.type)
+                        DetailInfoRow(title: .typeText, value: character.type)
                     }
-                    DetailInfoRow(title: "Gender", value: CharacterDisplayText.localized(character.gender, locale: locale))
-                    DetailInfoRow(title: "Origin", value: CharacterDisplayText.localized(character.origin.name, locale: locale))
-                    DetailInfoRow(title: "Last known location", value: CharacterDisplayText.localized(character.location.name, locale: locale))
+                    DetailInfoRow(title: .gender, value: CharacterDisplayText.localized(character.gender, locale: locale, localization: localization))
+                    DetailInfoRow(title: .origin, value: CharacterDisplayText.localized(character.origin.name, locale: locale, localization: localization))
+                    DetailInfoRow(title: .lastKnownLocation, value: CharacterDisplayText.localized(character.location.name, locale: locale, localization: localization))
                 }
                 .padding(16)
                 .background(.secondary.opacity(0.1), in: RoundedRectangle(cornerRadius: 16))
 
-                Text("Episodes").font(.title2.bold()).accessibilityAddTraits(.isHeader)
+                LocalizedText(.episodes).font(.title2.bold()).accessibilityAddTraits(.isHeader)
                 if episodes.isEmpty {
-                    Text("No episodes found.").foregroundStyle(.primary)
+                    LocalizedText(.noEpisodesFound).foregroundStyle(.primary)
                 }
                 ForEach(episodes) { episode in
                     episodeSection(episode)
@@ -105,7 +106,7 @@ struct CharacterDetailsView: View {
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("episode-\(episode.id)")
-            .accessibilityValue(expanded ? Text("Expanded") : Text("Collapsed"))
+            .accessibilityValue(Text(localization.string(expanded ? .expanded : .collapsed, locale: locale)))
 
             if expanded {
                 participantList(for: episode)
@@ -122,18 +123,18 @@ struct CharacterDetailsView: View {
     private func participantList(for episode: EpisodeDTO) -> some View {
         switch viewModel.participants[episode.id] {
         case .none, .some(.loading):
-            ProgressView("Loading participants…")
+            ProgressView { LocalizedText(.loadingParticipants) }
         case .some(.failed(let message)):
             VStack(alignment: .leading, spacing: 8) {
-                Text(message.localized(locale: locale)).font(.callout).foregroundStyle(.primary)
-                Button("Retry loading participants") {
+                Text(message.localized(locale: locale, localization: localization)).font(.callout).foregroundStyle(.primary)
+                Button {
                     participantRetries[episode.id, default: 0] += 1
-                }
+                } label: { LocalizedText(.retryLoadingParticipants) }
                 .frame(minHeight: 44)
             }
         case .some(.loaded(let cast)):
             if cast.isEmpty {
-                Text("No other participants.").foregroundStyle(.primary)
+                LocalizedText(.noOtherParticipants).foregroundStyle(.primary)
             } else {
                 ScrollView(.horizontal) {
                     LazyHStack(alignment: .top, spacing: 12) {
@@ -150,7 +151,7 @@ struct CharacterDetailsView: View {
                             .buttonStyle(.plain)
                             .accessibilityIdentifier("participant-\(character.id)")
                             .accessibilityLabel(character.name)
-                            .accessibilityHint("Open character details")
+                            .accessibilityHint(Text(localization.string(.openCharacterDetails, locale: locale)))
                         }
                     }
                 }

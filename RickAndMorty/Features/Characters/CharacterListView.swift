@@ -2,6 +2,7 @@
 import SwiftUI
 
 struct CharacterListView: View {
+    @Environment(LocalizationStore.self) private var localization
     @State private var viewModel: CharacterListViewModel
     @State private var retryCount = 0
     @State private var activeSheet: Sheet?
@@ -18,25 +19,25 @@ struct CharacterListView: View {
             content
                 .safeAreaInset(edge: .top, spacing: 0) {
                     if viewModel.isRefreshing, case .loaded = viewModel.state {
-                        ProgressView("Updating characters…")
+                        ProgressView { LocalizedText(.updatingCharacters) }
                             .padding(8).frame(maxWidth: .infinity)
                             .background(.regularMaterial)
                     }
                     if let message = viewModel.loadError {
                         VStack(spacing: 8) {
-                            Text(message.localized(locale: locale)).font(.callout)
-                            Button("Try again") { retryCount += 1 }
+                            Text(message.localized(locale: locale, localization: localization)).font(.callout)
+                            Button { retryCount += 1 } label: { LocalizedText(.tryAgain) }
                         }
                         .padding().frame(maxWidth: .infinity).background(.regularMaterial)
                         .accessibilityElement(children: .contain)
                     }
                 }
                 .background(AppBackgroundSurface())
-                .navigationTitle("Characters")
+                .navigationTitle(Text(localization.string(.characters, locale: locale)))
                 .navigationBarTitleDisplayMode(.large)
                 .searchable(
                     text: $viewModel.searchText,
-                    prompt: "Search characters"
+                    prompt: Text(localization.string(.searchCharacters, locale: locale))
                 )
                 .task(
                     id: LoadTrigger(query: viewModel.searchText, filters: viewModel.filters, retryCount: retryCount)
@@ -50,7 +51,7 @@ struct CharacterListView: View {
                         } label: {
                             Image(systemName: "gearshape")
                         }
-                        .accessibilityLabel("Settings")
+                        .accessibilityLabel(Text(localization.string(.settings, locale: locale)))
                         .accessibilityIdentifier("app-settings")
                     }
                     ToolbarItem(placement: .topBarTrailing) {
@@ -61,14 +62,16 @@ struct CharacterListView: View {
                                   ? "line.3.horizontal.decrease.circle"
                                   : "line.3.horizontal.decrease.circle.fill")
                         }
-                        .accessibilityLabel("Filter characters")
+                        .accessibilityLabel(Text(localization.string(.filterCharacters, locale: locale)))
                         .accessibilityIdentifier("character-filters")
                     }
                 }
                 .sheet(item: $activeSheet) { sheet in
                     switch sheet {
                     case .filters: CharacterFiltersView(filters: $viewModel.filters)
-                    case .settings: SettingsView()
+                    case .settings:
+                        SettingsView()
+                            .presentationDragIndicator(.visible)
                     }
                 }
                 .navigationDestination(for: Int.self) { id in
@@ -82,7 +85,7 @@ struct CharacterListView: View {
     private var content: some View {
         switch viewModel.state {
         case .idle, .loading:
-            ProgressView("Loading characters…")
+            ProgressView { LocalizedText(.loadingCharacters) }
                 .frame(maxWidth: .infinity,
                     maxHeight: .infinity
                 )
@@ -91,9 +94,9 @@ struct CharacterListView: View {
             if characters.isEmpty {
                 ScrollView {
                     ContentUnavailableView {
-                        Label("No characters found", systemImage: "magnifyingglass")
+                        Label { LocalizedText(.noCharactersFound) } icon: { Image(systemName: "magnifyingglass") }
                     } description: {
-                        Text("Try another name or reset the filters.")
+                        LocalizedText(.tryAnotherNameOrResetTheFilters)
                     }
                 }
                 .refreshable { await viewModel.loadCharacters(debounce: false) }
@@ -111,7 +114,7 @@ struct CharacterListView: View {
                             }
                             .buttonStyle(.plain)
                             .accessibilityIdentifier("character-\(character.id)")
-                            .accessibilityHint("Open character details")
+                            .accessibilityHint(Text(localization.string(.openCharacterDetails, locale: locale)))
                         }
                         if let nextPageURL = viewModel.nextPageURL {
                             paginationFooter.task(id: nextPageURL) {
@@ -128,13 +131,13 @@ struct CharacterListView: View {
 
         case .failed(let message):
             ContentUnavailableView {
-                Label("Could not load characters", systemImage: "exclamationmark.triangle")
+                Label { LocalizedText(.couldNotLoadCharacters) } icon: { Image(systemName: "exclamationmark.triangle") }
             } description: {
-                Text(message.localized(locale: locale))
+                Text(message.localized(locale: locale, localization: localization))
             } actions: {
-                Button("Try again") {
+                Button {
                     retryCount += 1
-                }
+                } label: { LocalizedText(.tryAgain) }
             }
         }
     }
@@ -142,16 +145,16 @@ struct CharacterListView: View {
     private var paginationFooter: some View {
         VStack(spacing: 8) {
             if let message = viewModel.nextPageError {
-                Text(message.localized(locale: locale))
+                Text(message.localized(locale: locale, localization: localization))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
 
-                Button("Retry loading more") {
+                Button {
                     Task { await viewModel.loadNextPage(retry: true) }
-                }
+                } label: { LocalizedText(.retryLoadingMore) }
             } else {
-                ProgressView("Loading more…")
+                ProgressView { LocalizedText(.loadingMore) }
             }
         }
         .frame(maxWidth: .infinity)
