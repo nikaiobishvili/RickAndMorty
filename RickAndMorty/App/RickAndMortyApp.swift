@@ -46,8 +46,8 @@ struct RickAndMortyApp: App {
     var body: some Scene {
         WindowGroup {
             AppRootView(repository: repository, imageLoader: imageLoader)
-            .environment(settings)
-            .environment(localization)
+                .environment(settings)
+                .environment(localization)
         }
     }
 }

@@ -2,7 +2,6 @@ import SwiftUI
 
 struct BackgroundSettingsView: View {
     @Environment(LocalizationStore.self) private var localization
-    @Environment(\.locale) private var locale
     @Environment(AppSettings.self) private var settings
 
     var body: some View {
@@ -30,7 +29,8 @@ struct BackgroundSettingsView: View {
                 }
             } footer: {
                 LocalizedText(.theBackgroundChangesImmediatelyAndIsRememberedNextTimeYouOpenTheApp)
-                    .font(.footnote).foregroundStyle(Color.primary)
+                    .font(.footnote)
+                    .foregroundStyle(Color.primary)
             }
         }
         .scrollContentBackground(.hidden)

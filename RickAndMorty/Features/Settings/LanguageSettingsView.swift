@@ -2,7 +2,6 @@ import SwiftUI
 
 struct LanguageSettingsView: View {
     @Environment(LocalizationStore.self) private var localization
-    @Environment(\.locale) private var locale
     @Environment(AppSettings.self) private var settings
 
     var body: some View {

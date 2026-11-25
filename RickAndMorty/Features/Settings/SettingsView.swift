@@ -2,7 +2,6 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(LocalizationStore.self) private var localization
-    @Environment(\.locale) private var locale
     @Environment(AppSettings.self) private var settings
 
     var body: some View {
@@ -21,7 +20,6 @@ struct SettingsView: View {
                     Label { LocalizedText(.lightOrDark) } icon: { Image(systemName: "paintpalette") }
                 }
                 .accessibilityIdentifier("open-background-settings")
-
             }
             .scrollContentBackground(.hidden)
             .background(AppBackgroundSurface(grouped: true))

@@ -8,6 +8,7 @@ struct CharacterRowView: View {
     let status: String
     let species: String
     var imageURL: URL? = nil
+    var isLoading = false
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -19,7 +20,14 @@ struct CharacterRowView: View {
             : AnyLayout(HStackLayout(spacing: 16))
 
         layout {
-            CharacterAvatar(url: imageURL, size: 64)
+            ZStack {
+                CharacterAvatar(url: imageURL, size: 64)
+                    .opacity(isLoading ? 0 : 1)
+                if isLoading {
+                    ProgressView()
+                        .accessibilityLabel(Text(localization.string(.loadingCharacters, locale: locale)))
+                }
+            }
             VStack(alignment: .leading, spacing: 4) {
                 Text(name)
                     .font(.headline)
@@ -54,5 +62,11 @@ struct CharacterRowView: View {
     CharacterRowView(name: "Rick Sanchez", status: "Alive", species: "Human")
         .padding(16)
         .preferredColorScheme(.dark)
+        .environment(LocalizationStore())
+}
+
+#Preview("Loading") {
+    CharacterRowView(name: "Rick Sanchez", status: "Alive", species: "Human", isLoading: true)
+        .padding(16)
         .environment(LocalizationStore())
 }

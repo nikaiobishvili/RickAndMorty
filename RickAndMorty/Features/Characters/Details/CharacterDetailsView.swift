@@ -56,7 +56,9 @@ struct CharacterDetailsView: View {
                 .padding(16)
                 .background(.secondary.opacity(0.1), in: RoundedRectangle(cornerRadius: 16))
 
-                LocalizedText(.episodes).font(.title2.bold()).accessibilityAddTraits(.isHeader)
+                LocalizedText(.episodes)
+                    .font(.title2.bold())
+                    .accessibilityAddTraits(.isHeader)
                 if episodes.isEmpty {
                     LocalizedText(.noEpisodesFound).foregroundStyle(.primary)
                 }
@@ -126,7 +128,9 @@ struct CharacterDetailsView: View {
             ProgressView { LocalizedText(.loadingParticipants) }
         case .some(.failed(let message)):
             VStack(alignment: .leading, spacing: 8) {
-                Text(message.localized(locale: locale, localization: localization)).font(.callout).foregroundStyle(.primary)
+                Text(message.localized(locale: locale, localization: localization))
+                    .font(.callout)
+                    .foregroundStyle(.primary)
                 Button {
                     participantRetries[episode.id, default: 0] += 1
                 } label: { LocalizedText(.retryLoadingParticipants) }

@@ -18,17 +18,15 @@ struct CharacterListView: View {
         NavigationStack {
             content
                 .safeAreaInset(edge: .top, spacing: 0) {
-                    if viewModel.isRefreshing, case .loaded = viewModel.state {
-                        ProgressView { LocalizedText(.updatingCharacters) }
-                            .padding(8).frame(maxWidth: .infinity)
-                            .background(.regularMaterial)
-                    }
                     if let message = viewModel.loadError {
                         VStack(spacing: 8) {
-                            Text(message.localized(locale: locale, localization: localization)).font(.callout)
+                            Text(message.localized(locale: locale, localization: localization))
+                                .font(.callout)
                             Button { retryCount += 1 } label: { LocalizedText(.tryAgain) }
                         }
-                        .padding().frame(maxWidth: .infinity).background(.regularMaterial)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(.regularMaterial)
                         .accessibilityElement(children: .contain)
                     }
                 }
@@ -68,16 +66,17 @@ struct CharacterListView: View {
                 }
                 .sheet(item: $activeSheet) { sheet in
                     switch sheet {
-                    case .filters: CharacterFiltersView(filters: $viewModel.filters)
+                    case .filters:
+                        CharacterFiltersView(filters: $viewModel.filters)
                     case .settings:
                         SettingsView()
                             .presentationDragIndicator(.visible)
+                            .presentationDetents([.medium, .large])
                     }
                 }
                 .navigationDestination(for: Int.self) { id in
                     CharacterDetailsView(id: id, repository: detailsRepository)
                 }
-
         }
     }
 
@@ -93,11 +92,20 @@ struct CharacterListView: View {
         case .loaded(let characters):
             if characters.isEmpty {
                 ScrollView {
-                    ContentUnavailableView {
-                        Label { LocalizedText(.noCharactersFound) } icon: { Image(systemName: "magnifyingglass") }
-                    } description: {
-                        LocalizedText(.tryAnotherNameOrResetTheFilters)
+                    Group {
+                        if viewModel.isRefreshing {
+                            ProgressView { LocalizedText(.loadingCharacters) }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                        } else {
+                            ContentUnavailableView {
+                                Label { LocalizedText(.noCharactersFound) } icon: { Image(systemName: "magnifyingglass") }
+                            } description: {
+                                LocalizedText(.tryAnotherNameOrResetTheFilters)
+                            }
+                        }
                     }
+                    .containerRelativeFrame(.vertical)
                 }
                 .refreshable { await viewModel.loadCharacters(debounce: false) }
             } else {
@@ -109,10 +117,12 @@ struct CharacterListView: View {
                                     name: character.name,
                                     status: character.status,
                                     species: character.species,
-                                    imageURL: character.image
+                                    imageURL: character.image,
+                                    isLoading: viewModel.isRefreshing
                                 )
                             }
                             .buttonStyle(.plain)
+                            .disabled(viewModel.isRefreshing)
                             .accessibilityIdentifier("character-\(character.id)")
                             .accessibilityHint(Text(localization.string(.openCharacterDetails, locale: locale)))
                         }
