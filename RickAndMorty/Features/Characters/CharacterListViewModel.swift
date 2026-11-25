@@ -1,9 +1,4 @@
-//
-//  CharacterListViewModel.swift
-//  RickAndMorty
-//
-//  Created by Nika Iobishvili on 02/11/2026.
-//
+
 import Observation
 import Foundation
 
@@ -18,6 +13,7 @@ final class CharacterListViewModel {
     }
     
     var searchText = ""
+    var filters = CharacterFilters()
     private(set) var state: State = .idle
     private(set) var nextPageURL: URL?
     private(set) var isLoadingNextPage = false
@@ -25,6 +21,8 @@ final class CharacterListViewModel {
     
     @ObservationIgnored
     private var loadedQuery = ""
+    @ObservationIgnored
+    private var loadedFilters = CharacterFilters()
     @ObservationIgnored
     private let repository: any CharactersRepository
     @ObservationIgnored
@@ -35,6 +33,8 @@ final class CharacterListViewModel {
     }
     
     func loadCharacters() async {
+        guard !Task.isCancelled else { return }
+        let filters = self.filters
         let requestID = UUID()
         currentRequestID = requestID
         
@@ -53,7 +53,7 @@ final class CharacterListViewModel {
             try Task.checkCancellation()
             
             let page = try await repository.fetchCharacters(
-                name: query
+                name: query, filters: filters
             )
             
             try Task.checkCancellation()
@@ -63,6 +63,7 @@ final class CharacterListViewModel {
             }
             
             loadedQuery = query
+            loadedFilters = filters
             nextPageURL = page.info.next
             state = .loaded(page.results)
         } catch {
@@ -80,10 +81,13 @@ final class CharacterListViewModel {
         }
     }
     
-    func loadNextPage() async {
+    func loadNextPage(retry: Bool = false) async {
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        guard query == loadedQuery,
+        guard !Task.isCancelled,
+              query == loadedQuery,
+              filters == loadedFilters,
+              nextPageError == nil || retry,
               !isLoadingNextPage,
               let url = nextPageURL,
               case .loaded = state else {
@@ -117,7 +121,7 @@ final class CharacterListViewModel {
                 seenIDs.insert(character.id).inserted
             }
             
-            nextPageURL = page.info.next
+            nextPageURL = page.info.next == url ? nil : page.info.next
             state = .loaded(existingCharacters + newCharacters)
         } catch {
             guard currentRequestID == requestID else {

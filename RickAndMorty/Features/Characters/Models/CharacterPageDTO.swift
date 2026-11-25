@@ -1,9 +1,3 @@
-//
-//  CharacterPageDTO.swift
-//  RickAndMorty
-//
-//  Created by Nika Iobishvili on 04/11/2026.
-//
 
 import Foundation
 

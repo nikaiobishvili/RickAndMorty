@@ -1,18 +1,14 @@
-//
-//  CharacterListView.swift
-//  RickAndMorty
-//
-//  Created by Nika Iobishvili on 25/10/2026.
-//
 
 import SwiftUI
 
 struct CharacterListView: View {
     @State private var viewModel: CharacterListViewModel
     @State private var retryCount = 0
-    @State private var nextPageRetryCount = 0
+    @State private var showingFilters = false
+    private let detailsRepository: any CharacterDetailsRepository
 
-    init(viewModel: CharacterListViewModel) {
+    init(viewModel: CharacterListViewModel, detailsRepository: any CharacterDetailsRepository) {
+        self.detailsRepository = detailsRepository
         _viewModel = State(initialValue: viewModel)
     }
 
@@ -26,10 +22,29 @@ struct CharacterListView: View {
                     prompt: "Search characters"
                 )
                 .task(
-                    id: LoadTrigger(query: viewModel.searchText, retryCount: retryCount)
+                    id: LoadTrigger(query: viewModel.searchText, filters: viewModel.filters, retryCount: retryCount)
                 ) {
                     await viewModel.loadCharacters()
                 }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showingFilters = true
+                        } label: {
+                            Image(systemName: viewModel.filters == CharacterFilters()
+                                  ? "line.3.horizontal.decrease.circle"
+                                  : "line.3.horizontal.decrease.circle.fill")
+                        }
+                        .accessibilityLabel("Filter characters")
+                    }
+                }
+                .sheet(isPresented: $showingFilters) {
+                    CharacterFiltersView(filters: $viewModel.filters)
+                }
+                .navigationDestination(for: Int.self) { id in
+                    CharacterDetailsView(id: id, repository: detailsRepository)
+                }
+
         }
     }
 
@@ -49,22 +64,20 @@ struct CharacterListView: View {
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(characters) { character in
-                            CharacterRowView(
-                                name: character.name,
-                                status: character.status,
-                                species: character.species
-                            )
+                            NavigationLink(value: character.id) {
+                                CharacterRowView(
+                                    name: character.name,
+                                    status: character.status,
+                                    species: character.species,
+                                    imageURL: character.image
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
                         if let nextPageURL = viewModel.nextPageURL {
-                            paginationFooter
-                                .task(
-                                    id: NextPageTrigger(
-                                        url: nextPageURL,
-                                        retryCount: nextPageRetryCount
-                                    )
-                                ) {
-                                    await viewModel.loadNextPage()
-                                }
+                            paginationFooter.task(id: nextPageURL) {
+                                await viewModel.loadNextPage()
+                            }
                         }
                     }
                     .padding(16)
@@ -93,7 +106,7 @@ struct CharacterListView: View {
                     .multilineTextAlignment(.center)
 
                 Button("Retry loading more") {
-                    nextPageRetryCount += 1
+                    Task { await viewModel.loadNextPage(retry: true) }
                 }
             } else {
                 ProgressView("Loading more…")
@@ -103,13 +116,9 @@ struct CharacterListView: View {
         .padding(.vertical, 12)
     }
 
-    private struct NextPageTrigger: Equatable {
-        let url: URL
-        let retryCount: Int
-    }
-
     private struct LoadTrigger: Equatable {
         let query: String
+        let filters: CharacterFilters
         let retryCount: Int
     }
 }

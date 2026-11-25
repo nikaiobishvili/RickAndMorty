@@ -1,9 +1,3 @@
-//
-//  RickAndMortyApp.swift
-//  RickAndMorty
-//
-//  Created by Nika Iobishvili on 25/10/2026.
-//
 
 import SwiftUI
 
@@ -16,7 +10,8 @@ struct RickAndMortyApp: App {
             CharacterListView(
                 viewModel: CharacterListViewModel(
                     repository: repository
-                )
+                ),
+                detailsRepository: repository
             )
         }
     }

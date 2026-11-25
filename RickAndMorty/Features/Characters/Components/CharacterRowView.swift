@@ -1,9 +1,3 @@
-//
-//  CharacterRowView.swift
-//  RickAndMorty
-//
-//  Created by Nika Iobishvili on 03/11/2026.
-//
 
 import Foundation
 import SwiftUI
@@ -12,15 +6,17 @@ struct CharacterRowView: View {
     let name: String
     let status: String
     let species: String
+    var imageURL: URL? = nil
+
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: "person.crop.square.fill")
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(.secondary)
-                .frame(width: 64, height: 64)
-                .accessibilityHidden(true)
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
+            : AnyLayout(HStackLayout(spacing: 16))
+
+        layout {
+            CharacterAvatar(url: imageURL, size: 64)
             VStack(alignment: .leading, spacing: 4) {
                 Text(name)
                     .font(.headline)
@@ -42,7 +38,7 @@ struct CharacterRowView: View {
 
 #Preview("Light")  {
     CharacterRowView(
-        name: "Rick Sanches",
+        name: "Rick Sanchez",
         status: "Alive",
         species: "Human"
     )
@@ -50,12 +46,8 @@ struct CharacterRowView: View {
     .preferredColorScheme(.light)
 }
 
-//#Preview("Dark") {
-//    CharacterRowView(
-//        name: "Rick Sanchez",
-//        status: "Alive",
-//        species: "Human"
-//    )
-//    .padding(16)
-//    .preferredColorScheme(.dark)
-//}
+#Preview("Dark") {
+    CharacterRowView(name: "Rick Sanchez", status: "Alive", species: "Human")
+        .padding(16)
+        .preferredColorScheme(.dark)
+}
